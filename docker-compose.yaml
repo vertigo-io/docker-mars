@@ -1,0 +1,53 @@
+version: "3.7"
+services:
+  postgresql:
+    build: ./postgresql
+    environment:
+      - "POSTGRES_USER=mars"
+      - "POSTGRES_PASSWORD=mars"
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:5.0.6
+    ports: 
+        - "6379:6379"
+  influxdb:
+    image: influxdb:1.7.8
+    ports: 
+        - "8086:8086"
+  mosquitto:
+    image: eclipse-mosquitto:1.6.7
+    ports: 
+        - "1883:1883"
+  elasticsearch:
+    image: elasticsearch:7.4.1
+    environment:
+      - "discovery.type=single-node"
+      - "cluster.name=mars"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  rasa:
+    image: rasa/rasa:1.2.3-full
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa/models:/app/models
+    command:
+      - run
+      - --cors
+      - "*"
+  analytics:
+    depends_on: ["influxdb"]
+    build: ./analytics
+    ports:
+      - "4562:4562"
+  tomcat:
+    depends_on: ["postgresql", "redis", "influxdb", "mosquitto", "elasticsearch", "rasa", "analytics"]
+    image: tomcat:9.0.27-jdk8-openjdk
+    volumes:
+      - "./tomcat/conf:/usr/local/tomcat/conf/Catalina/localhost/"
+      - "./tomcat/webapps:/usr/local/tomcat/webapps"
+      - "./tomcat/marsconf:/usr/local/tomcat/marsconf"
+    ports:
+      - "8080:8080"
