@@ -1,0 +1,9 @@
+FROM tomcat:9-jdk11-openjdk
+
+COPY ./mars.war /usr/local/tomcat/webapps/mars.war
+
+COPY ./bin/wait-for-it.sh /usr/app/bin/
+COPY ./bin/start.sh /usr/app/bin/
+RUN chmod +x /usr/app/bin/*.sh
+
+ENTRYPOINT [ "/usr/app/bin/start.sh" ]

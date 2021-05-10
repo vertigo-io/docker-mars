@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   postgresql:
-    build: ./postgresql
+    image: postgres:11.5
     environment:
       - "POSTGRES_USER=mars"
       - "POSTGRES_PASSWORD=mars"
@@ -12,9 +12,17 @@ services:
     ports: 
         - "6379:6379"
   influxdb:
-    image: influxdb:1.7.8
+    image: influxdb:2.0
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=vertigo
+      - DOCKER_INFLUXDB_INIT_PASSWORD=vertigo-password
+      - DOCKER_INFLUXDB_INIT_ORG=vertigo
+      - DOCKER_INFLUXDB_INIT_BUCKET=myApp
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=is4DQpHF8XkvNJRm5KNJOtjlKIpfVc2G
     ports: 
-        - "8086:8086"
+      - "8086:8086"
+    restart: unless-stopped
   mosquitto:
     image: eclipse-mosquitto:1.6.7
     ports: 
@@ -26,7 +34,6 @@ services:
       - "cluster.name=mars"
     ports:
       - "9200:9200"
-      - "9300:9300"
   rasa:
     image: rasa/rasa:1.2.3-full
     ports:
@@ -38,16 +45,23 @@ services:
       - --cors
       - "*"
   analytics:
-    depends_on: ["influxdb"]
-    build: ./analytics
+    image: vertigoio/vertigo-analytics-server
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=is4DQpHF8XkvNJRm5KNJOtjlKIpfVc2G
+    depends_on:
+      - influxdb
     ports:
       - "4562:4562"
+    restart: unless-stopped
   tomcat:
     depends_on: ["postgresql", "redis", "influxdb", "mosquitto", "elasticsearch", "rasa", "analytics"]
-    image: tomcat:9.0.27-jdk8-openjdk
+    environment:
+      - ANALYTICS_URL=analytis:4562
+      - ES_URL=http://elasticsearch:9200
+    build: ./tomcat
     volumes:
-      - "./tomcat/conf:/usr/local/tomcat/conf/Catalina/localhost/"
-      - "./tomcat/webapps:/usr/local/tomcat/webapps"
-      - "./tomcat/marsconf:/usr/local/tomcat/marsconf"
+      - "./tomcat/mars.xml:/usr/local/tomcat/conf/Catalina/localhost/mars.xml"
+      - "./tomcat/marsApiKeys.properties:/usr/local/tomcat/marsconf/marsApiKeys.properties"
     ports:
       - "8080:8080"
