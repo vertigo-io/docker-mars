@@ -1,14 +1,14 @@
 version: "3.7"
 services:
   postgresql:
-    image: postgres:11.5
+    image: postgres:14
     environment:
       - "POSTGRES_USER=mars"
       - "POSTGRES_PASSWORD=mars"
     ports:
       - "5432:5432"
   redis:
-    image: redis:5.0.6
+    image: redis:6
     ports: 
         - "6379:6379"
   influxdb:
@@ -24,14 +24,16 @@ services:
       - "8086:8086"
     restart: unless-stopped
   mosquitto:
-    image: eclipse-mosquitto:1.6.7
+    image: eclipse-mosquitto:1.6
     ports: 
         - "1883:1883"
   elasticsearch:
-    image: elasticsearch:7.4.1
+    image: elasticsearch:7.17.2
     environment:
       - "discovery.type=single-node"
       - "cluster.name=mars"
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ports:
       - "9200:9200"
   rasa:
@@ -57,7 +59,7 @@ services:
   tomcat:
     depends_on: ["postgresql", "redis", "influxdb", "mosquitto", "elasticsearch", "rasa", "analytics"]
     environment:
-      - ANALYTICS_URL=analytis:4562
+      - ANALYTICS_URL=analytics:4562
       - ES_URL=http://elasticsearch:9200
     build: ./tomcat
     volumes:
