@@ -2,7 +2,7 @@ FROM maven:3-openjdk-11 as builder
 
 RUN git clone  https://github.com/vertigo-io/vertigo-mars
 WORKDIR vertigo-mars
-RUN git checkout tags/v3.3.0
+#RUN git checkout tags/v3.3.0
 RUN mvn install -DskipTests -Dmaven.test.skip=true
 
 

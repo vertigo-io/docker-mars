@@ -18,7 +18,7 @@
         <Parameter name="ledgerHost" value="http://localhost:8545" override="false"/>
         <Parameter name="mosquittoHost" value="tcp://mosquitto:1883" override="false"/>
         <Parameter name="orchestra.root.directory" value="/home/tomcat/marsOrchestra/" override="false"/>
-        <Parameter name="suppliersImportLimit" value="3000000" override="false"/>
-		<Parameter name="chatbotUrl" value="//localhost:5005/webhooks/rest/webhook" override="false"/>
-        <Parameter name="apiManagementUrl" value="https://store.api.mars.vertigo.io/store/" override="false"/>
+	<Parameter name="suppliersImportLimit" value="3000000" override="false"/>
+	<Parameter name="chatbotUrl" value="https://chatbot-runner.kleegroup.com/runnerMars/static/chatbot/index.html?runnerUrl=https://chatbot-runner.kleegroup.com/runnerMars&amp;botName=Alan&amp;useRating=false" override="false"/>
+	<Parameter name="apiManagementUrl" value="https://store.api.mars.vertigo.io/store/" override="false"/>
 </Context>
