@@ -12,7 +12,7 @@ services:
     ports: 
         - "6379:6379"
   influxdb:
-    image: influxdb:2.0
+    image: influxdb:2.4
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=vertigo
@@ -47,7 +47,7 @@ services:
       - --cors
       - "*"
   analytics:
-    image: vertigoio/vertigo-analytics-server
+    image: vertigoio/vertigo-analytics-server:0.9.2
     environment:
       - INFLUXDB_URL=http://influxdb:8086
       - INFLUXDB_TOKEN=is4DQpHF8XkvNJRm5KNJOtjlKIpfVc2G
