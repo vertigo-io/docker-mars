@@ -1,24 +1,24 @@
 <Context debug="0" reloadable="false" allowCasualMultipartParsing="true">
-        <Resource name="jdbc/DataSource"
-                auth="SERVLET"
-                type="javax.sql.DataSource"
-                driverClassName="org.postgresql.Driver"
-                url="jdbc:postgresql://postgresql:5432/mars?stringtype=unspecified&amp;quoteReturningIdentifiers=false"
-                username="mars"
-                password="mars" />
+	<Resource name="jdbc/DataSource"
+			auth="SERVLET"
+			type="javax.sql.DataSource"
+			driverClassName="org.postgresql.Driver"
+			url="jdbc:postgresql://postgresql:5432/mars?stringtype=unspecified&amp;quoteReturningIdentifiers=false"
+			username="mars"
+			password="mars" />
 
-        <Parameter name="devMode" value="false" override="false"/>
-        <Parameter name="boot.activeFlags" value="klee" override="false"/>
-        <Parameter name="boot.apiKeysUrl" value="/usr/local/tomcat/marsconf/marsApiKeys.properties" override="false"/>
-		<Parameter name="boot.analyticsHost" value="analytics" override="false"/>
-		<Parameter name="boot.portParam" value="4562" override="false"/>
-        <Parameter name="redisHost" value="redis" override="false"/>
-        <Parameter name="influxdbHost" value="http://influxdb:8086" override="false"/>
-		<Parameter name="influxdbToken" value="is4DQpHF8XkvNJRm5KNJOtjlKIpfVc2G" override="false"/>
-        <Parameter name="esHost" value="elasticsearch:9200" override="false"/>
-        <Parameter name="ledgerHost" value="http://localhost:8545" override="false"/>
-        <Parameter name="mosquittoHost" value="tcp://mosquitto:1883" override="false"/>
-        <Parameter name="orchestra.root.directory" value="/home/tomcat/marsOrchestra/" override="false"/>
+	<Parameter name="devMode" value="false" override="false"/>
+	<Parameter name="boot.activeFlags" value="klee;tomcat" override="false"/>
+	<Parameter name="boot.apiKeysUrl" value="/usr/local/tomcat/marsconf/marsApiKeys.properties" override="false"/>
+	<Parameter name="boot.analyticsHost" value="analytics" override="false"/>
+	<Parameter name="boot.portParam" value="4562" override="false"/>
+	<Parameter name="redisHost" value="redis" override="false"/>
+	<Parameter name="influxdbHost" value="http://influxdb:8086" override="false"/>
+	<Parameter name="influxdbToken" value="is4DQpHF8XkvNJRm5KNJOtjlKIpfVc2G" override="false"/>
+	<Parameter name="esHost" value="elasticsearch:9200" override="false"/>
+	<Parameter name="ledgerHost" value="http://localhost:8545" override="false"/>
+	<Parameter name="mosquittoHost" value="tcp://mosquitto:1883" override="false"/>
+	<Parameter name="orchestra.root.directory" value="/home/tomcat/marsOrchestra/" override="false"/>
 	<Parameter name="suppliersImportLimit" value="3000000" override="false"/>
 	<Parameter name="chatbotUrl" value="https://chatbot-runner.kleegroup.com/runnerMars/static/chatbot/index.html?runnerUrl=https://chatbot-runner.kleegroup.com/runnerMars&amp;botName=Alan&amp;useRating=false" override="false"/>
 	<Parameter name="apiManagementUrl" value="https://store.api.mars.vertigo.io/store/" override="false"/>
